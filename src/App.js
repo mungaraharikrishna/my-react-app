@@ -11,13 +11,12 @@ import Layout from "./pages/layout";
 import Login from "./pages/login";
 
 function App() {
- 
   return (
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="login" element={<Login />} />
           <Route element={<Layout />}>
-            <Route path="login" element={<Login />} />
             <Route path="home" element={<Home />} />
             <Route path="about" element={<About />} />
             <Route path="contact" element={<ContactUs />} />

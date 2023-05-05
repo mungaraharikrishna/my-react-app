@@ -48,7 +48,7 @@ function Layout() {
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/login">
-                  Login
+                  logout
                 </NavLink>
                 {/* <Link className="nav-link" to="/contact">Contact</Link> */}
               </li>
