@@ -1,10 +1,11 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-// import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { login } from "../sevices";
+
 const LoginSchema = Yup.object().shape({
-  email: Yup.string()
+  username: Yup.string()
     .email("Invalid email address format")
     .required("Email is required"),
   password: Yup.string()
@@ -13,21 +14,18 @@ const LoginSchema = Yup.object().shape({
 });
 function Login() {
   const navigate = useNavigate();
-  //   const [userName, setUserName] = useState("");
-  //   const [password, setPassword] = useState("");
-
   function onSubmit(values) {
-    console.log(values);
-    navigate("/home");
+    var fd = new FormData();
+    fd.append('username', values.username);
+    fd.append('password', values.password);
+    fd.append('subdomain', 'msrcosmos');
+    login(fd).then(function(response){
+      console.log(response);
+      navigate("/home");
+    }, function(err){
+      console.log(err);
+    });
   }
-
-  //   function changeInput(type, event) {
-  //     if (type === "email") {
-  //       setUserName(event);
-  //     } else {
-  //       setPassword(event);
-  //     }
-  //   }
 
   return (
     <>
@@ -37,7 +35,7 @@ function Login() {
             <title>{`My React App | Login`}</title>
           </Helmet>
           <Formik
-            initialValues={{ email: "", password: "" }}
+            initialValues={{ username: "", password: "" }}
             validationSchema={LoginSchema}
             onSubmit={(values) => {
               onSubmit(values);
@@ -56,16 +54,16 @@ function Login() {
                       <label htmlFor="email">Email</label>
                       <Field
                         type="email"
-                        name="email"
+                        name="username"
                         placeholder="Enter email"
                         autoComplete="off"
                         className={`mt-2 form-control
-                          ${touched.email && errors.email ? "is-invalid" : ""}`}
+                          ${touched.username && errors.username ? "is-invalid" : ""}`}
                       />
 
                       <ErrorMessage
                         component="div"
-                        name="email"
+                        name="username"
                         className="invalid-feedback"
                       />
                     </div>
@@ -109,7 +107,7 @@ function Login() {
                     you !
                   </div>
                   <ul className="list-group">
-                    <li className="list-group-item">Email: {values.email}</li>
+                    <li className="list-group-item">Email: {values.username}</li>
                     <li className="list-group-item">
                       Password: {values.password}
                     </li>
@@ -120,49 +118,6 @@ function Login() {
           </Formik>
         </>
       </HelmetProvider>
-      {/* <form onSubmit={onSubmit}>
-        <div className="mb-3 mt-3">
-          <label htmlFor="email" className="form-label">
-            Email:
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            placeholder="Enter email"
-            name="email"
-            value={userName}
-            onChange={(e) => changeInput("email", e.target.value)}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="pwd" className="form-label">
-            Password:
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            id="pwd"
-            placeholder="Enter password"
-            name="pswd"
-            value={password}
-            onChange={(e) => changeInput("password", e.target.value)}
-          />
-        </div>
-        <div className="form-check mb-3">
-          <label className="form-check-label">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              name="remember"
-            />{" "}
-            Remember me
-          </label>
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </form> */}
     </>
   );
 }
