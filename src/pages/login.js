@@ -2,7 +2,8 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { login } from "../sevices";
+import  authSer  from "../sevices";
+import { toast } from "react-toastify";
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string()
@@ -19,8 +20,9 @@ function Login() {
     fd.append('username', values.username);
     fd.append('password', values.password);
     fd.append('subdomain', 'msrcosmos');
-    login(fd).then(function(response){
+    authSer.login(fd).then(function(response){
       console.log(response);
+      toast.success("Wow so easy!")
       navigate("/home");
     }, function(err){
       console.log(err);

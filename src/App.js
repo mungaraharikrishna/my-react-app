@@ -9,6 +9,7 @@ import ContactUs from "./pages/contactus";
 import Home from "./pages/home";
 import Layout from "./pages/layout";
 import Login from "./pages/login";
+import { ToastContainer, toast } from "react-toastify";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/" element={<Navigate replace to="/login" />} />
         </Routes>
       </BrowserRouter>
+      <ToastContainer autoClose={3000} position={toast.POSITION.BOTTOM_RIGHT} />
     </>
   );
 }
